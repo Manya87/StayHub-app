@@ -1,0 +1,11 @@
+{
+  "name": "stay-hub-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix frontend-owner run dev",
+    "build": "npm --prefix frontend-owner run build",
+    "lint": "npm --prefix frontend-owner run lint",
+    "start": "npm --prefix frontend-owner run start"
+  }
+}
