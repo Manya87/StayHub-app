@@ -1,10 +1,10 @@
 # StayHub App
 
-StayHub App is a web application built with **React** and **Vite** on the frontend, with a **Spring Boot** backend. The project appears to be a hotel/stay booking style application focused on a modern, responsive user experience.
+StayHub App is a web application built with **React** and **Next.js** on the frontend, with a **Spring Boot** backend. The project appears to be a hotel/stay booking style application focused on a modern, responsive user experience.
 
 ## Features
 
-- React + Vite frontend
+- React + Next.js frontend (App Router)
 - Spring Boot backend
 - Java-based server application
 - PostgreSQL-ready persistence setup
@@ -17,10 +17,10 @@ StayHub App is a web application built with **React** and **Vite** on the fronte
 
 ### Frontend
 - React
-- Vite
-- JavaScript
-- HTML
-- CSS
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- HTML / CSS
 
 ### Backend
 - Java 21
@@ -34,8 +34,8 @@ StayHub App is a web application built with **React** and **Vite** on the fronte
 
 ## Project Structure
 
-- `StayHub-app/backend` - Spring Boot backend
-- `StayHub-app/frontend-owner` - React frontend
+- `backend/` - Spring Boot backend
+- `frontend-owner/` - Next.js frontend
 
 ## Getting Started
 
@@ -48,15 +48,17 @@ StayHub App is a web application built with **React** and **Vite** on the fronte
 ### Frontend Setup
 
 ```bash
-cd StayHub-app/frontend-owner
+cd frontend-owner
 npm install
 npm run dev
 ```
 
+The frontend will be running at [http://localhost:3000](http://localhost:3000).
+
 ### Backend Setup
 
 ```bash
-cd StayHub-app/backend
+cd backend
 ./mvnw spring-boot:run
 ```
 
@@ -69,10 +71,10 @@ mvn spring-boot:run
 ## Available Scripts
 
 ### Frontend
-- `npm run dev` — Start the development server
-- `npm run build` — Build the app for production
+- `npm run dev` — Start Next.js development server
+- `npm run build` — Build the Next.js app for production
+- `npm run start` — Start Next.js production server
 - `npm run lint` — Run ESLint
-- `npm run preview` — Preview the production build
 
 ## Backend
 - Spring Boot application entry point: `StayHubAppApplication`
@@ -80,7 +82,7 @@ mvn spring-boot:run
 
 ## Notes
 
-- The frontend currently uses a starter Vite/React layout.
+- The frontend uses Next.js with App Router and Tailwind CSS.
 - The backend is set up with core Spring dependencies and PostgreSQL support.
 - You can expand this README with app-specific features, environment variables, and deployment instructions as the project evolves.
 
