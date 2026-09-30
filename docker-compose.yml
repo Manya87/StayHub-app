@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: stayhub-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-stayhub_db}
+      POSTGRES_USER: ${POSTGRES_USER:-stayhub_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-stayhub_secret_pass}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-stayhub_admin} -d ${POSTGRES_DB:-stayhub_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - stayhub-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: stayhub-redis
+    restart: always
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - stayhub-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: stayhub-backend
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-stayhub_db}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-stayhub_admin}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-stayhub_secret_pass}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+    ports:
+      - "${BACKEND_PORT:-8080}:8080"
+    networks:
+      - stayhub-network
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: stayhub-gateway
+    restart: on-failure
+    depends_on:
+      - backend
+    environment:
+      BACKEND_URI: http://backend:8080
+      SERVER_PORT: 8082
+    ports:
+      - "${GATEWAY_PORT:-8082}:8082"
+    networks:
+      - stayhub-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: stayhub-frontend
+    restart: on-failure
+    depends_on:
+      - gateway
+    ports:
+      - "5173:80"
+    networks:
+      - stayhub-network
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  stayhub-network:
+    driver: bridge

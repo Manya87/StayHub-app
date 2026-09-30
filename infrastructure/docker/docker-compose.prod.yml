@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - prod_postgres_data:/var/lib/postgresql/data
+    networks:
+      - stayhub-prod
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - prod_redis_data:/data
+    networks:
+      - stayhub-prod
+
+  backend:
+    image: stayhub/backend:latest
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
+      SPRING_DATA_REDIS_PASSWORD: ${REDIS_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+    networks:
+      - stayhub-prod
+
+  gateway:
+    image: stayhub/gateway:latest
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "8082:8082"
+    networks:
+      - stayhub-prod
+
+  frontend:
+    image: stayhub/frontend:latest
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - stayhub-prod
+
+volumes:
+  prod_postgres_data:
+  prod_redis_data:
+
+networks:
+  stayhub-prod:
+    driver: bridge

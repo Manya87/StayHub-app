@@ -36,6 +36,10 @@ HELP.md
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.mv.db
+*.lock.db
+*.trace.db
+backend/data/
 
 # --- IDEs & Editors ---
 # IntelliJ IDEA

@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 33% 97%;
+    --foreground: 222.2 84% 4.9%;
+  }
+
+  body {
+    background-color: #f4f6fb;
+    color: #0f172a;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+@layer utilities {
+  .pghub-card {
+    background-color: #ffffff;
+    border: 1px solid #eef1f6;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pghub-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(93, 95, 239, 0.08), 0 4px 10px -3px rgba(0, 0, 0, 0.04);
+    border-color: #e0e4f2;
+  }
+
+  .gradient-brand {
+    background: linear-gradient(135deg, #5d5fef 0%, #4338ca 100%);
+  }
+
+  .gradient-badge {
+    background: linear-gradient(135deg, rgba(93, 95, 239, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+  }
+}
