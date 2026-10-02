@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS rooms (
+    id VARCHAR(36) PRIMARY KEY,
+    property_id VARCHAR(36) NOT NULL REFERENCES properties(id) ON DELETE CASCADE,
+    room_number VARCHAR(30) NOT NULL,
+    floor INTEGER NOT NULL DEFAULT 1,
+    type VARCHAR(30) NOT NULL,
+    capacity INTEGER NOT NULL DEFAULT 2,
+    base_rent NUMERIC(10, 2) NOT NULL,
+    has_attached_bathroom BOOLEAN NOT NULL DEFAULT FALSE,
+    has_balcony BOOLEAN NOT NULL DEFAULT FALSE,
+    has_ac BOOLEAN NOT NULL DEFAULT FALSE,
+    status VARCHAR(30) NOT NULL DEFAULT 'AVAILABLE',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_property_room UNIQUE (property_id, room_number)
+);
+
+CREATE INDEX idx_rooms_property ON rooms(property_id);
