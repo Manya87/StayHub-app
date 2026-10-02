@@ -1,51 +1,35 @@
 # StayHub App
 
-StayHub App is a web application built with **React** and **Vite** on the frontend, with a **Spring Boot** backend. The project appears to be a hotel/stay booking style application focused on a modern, responsive user experience.
+StayHub is a full-stack stay/hotel booking application with a React + Vite frontend and a Spring Boot backend.
 
-## Features
+## Tech stack
 
-- React + Vite frontend
-- Spring Boot backend
-- Java-based server application
-- PostgreSQL-ready persistence setup
-- Flyway database migration support
-- Form validation support
-- Spring Security integration
-- Responsive UI starter structure
+- **Frontend:** React, Vite, JavaScript, CSS, ESLint
+- **Backend:** Java 21, Spring Boot, Spring Security, Spring Data JPA, Validation, Flyway, PostgreSQL, Lombok
 
-## Tech Stack
+## Repository structure
 
-### Frontend
-- React
-- Vite
-- JavaScript
-- HTML
-- CSS
+This repository root contains the actual app workspace in the `StayHub-app/` folder:
 
-### Backend
+- `StayHub-app/frontend-owner` - React + Vite client
+- `StayHub-app/backend` - Spring Boot API
+
+## Prerequisites
+
+- Node.js 18+ and npm
 - Java 21
-- Spring Boot
-- Spring Data JPA
-- Spring Security
-- Spring Validation
-- Flyway
-- PostgreSQL
-- Lombok
-
-## Project Structure
-
-- `StayHub-app/backend` - Spring Boot backend
-- `StayHub-app/frontend-owner` - React frontend
-
-## Getting Started
-
-### Prerequisites
-- Node.js and npm
-- Java 21
-- Maven
 - PostgreSQL
 
-### Frontend Setup
+## Local setup
+
+### 1) Clone and enter workspace
+
+```bash
+git clone <repository-url>
+cd StayHub-app/StayHub-app
+```
+
+### 2) Frontend
 
 ```bash
 cd StayHub-app/frontend-owner
@@ -53,37 +37,46 @@ npm install
 npm run dev
 ```
 
-### Backend Setup
+Frontend runs on Vite's default dev server (usually `http://localhost:5173`).
+
+### 3) Backend
 
 ```bash
 cd StayHub-app/backend
 ./mvnw spring-boot:run
 ```
 
-If you do not have Maven Wrapper, use:
+If Maven Wrapper is unavailable on your machine:
 
 ```bash
 mvn spring-boot:run
 ```
 
-## Available Scripts
+## Scripts and useful commands
 
-### Frontend
-- `npm run dev` — Start the development server
-- `npm run build` — Build the app for production
-- `npm run lint` — Run ESLint
-- `npm run preview` — Preview the production build
+### Frontend (`StayHub-app/frontend-owner`)
 
-## Backend
-- Spring Boot application entry point: `StayHubAppApplication`
-- Test context is configured with a basic Spring Boot test
+- `npm run dev` - start development server
+- `npm run build` - build production assets
+- `npm run preview` - preview production build locally
+- `npm run lint` - run ESLint
 
-## Notes
+### Backend (`StayHub-app/backend`)
 
-- The frontend currently uses a starter Vite/React layout.
-- The backend is set up with core Spring dependencies and PostgreSQL support.
-- You can expand this README with app-specific features, environment variables, and deployment instructions as the project evolves.
+- `./mvnw spring-boot:run` - run backend locally
+- `./mvnw test` - run backend tests
 
-## License
+## Backend configuration notes
 
-No license has been specified yet.
+The backend uses PostgreSQL and Flyway. Configure datasource properties (URL, username, password) for your local database using Spring Boot configuration files or environment variables before running non-trivial backend features.
+
+## Current project status
+
+- Frontend currently includes starter UI scaffolding
+- Backend currently includes base Spring Boot setup with security, persistence, and migration dependencies
+
+## Contributing
+
+1. Create a feature branch from `prajwal`
+2. Keep changes scoped and focused
+3. Run lint/tests for the area you changed before opening or updating a PR
