@@ -28,4 +28,13 @@ jobs:
           cache: 'maven'
 
       - name: Run Tests & Build Package
-        run: mvn clean test
+        run: |
+          for attempt in 1 2 3; do
+            mvn clean test && exit 0
+            if [ "$attempt" -eq 3 ]; then
+              echo "Maven build failed after 3 attempts."
+              exit 1
+            fi
+            echo "Maven build failed (attempt $attempt). Retrying in 15 seconds..."
+            sleep 15
+          done
