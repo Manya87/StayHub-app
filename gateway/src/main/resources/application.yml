@@ -1,0 +1,33 @@
+server:
+  port: ${GATEWAY_PORT:8082}
+
+spring:
+  application:
+    name: stayhub-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+              - PATCH
+            allowedHeaders: "*"
+      routes:
+        - id: backend-service
+          uri: ${BACKEND_URI:http://localhost:8080}
+          predicates:
+            - Path=/api/**
+          filters:
+            - AddResponseHeader=X-Gateway-Route, StayHub-Gateway
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

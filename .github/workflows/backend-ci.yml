@@ -1,0 +1,40 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Run Tests & Build Package
+        run: |
+          for attempt in 1 2 3; do
+            mvn clean test && exit 0
+            if [ "$attempt" -eq 3 ]; then
+              echo "Maven build failed after 3 attempts."
+              exit 1
+            fi
+            echo "Maven build failed (attempt $attempt). Retrying in 15 seconds..."
+            sleep 15
+          done

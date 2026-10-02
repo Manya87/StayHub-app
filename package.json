@@ -1,0 +1,25 @@
+{
+  "name": "stayhub-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "StayHub - Hostel, PG & Co-living Property Management Platform",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "keywords": [
+    "stayhub",
+    "property-management",
+    "hostel",
+    "pg",
+    "react",
+    "spring-boot",
+    "vite"
+  ],
+  "author": "StayHub Team",
+  "license": "MIT"
+}
